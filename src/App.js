@@ -1,5 +1,8 @@
 import React from 'react';
 import Search from './components/search';
+import UserInfo from './components/user-info';
+import Actions from './components/actions';
+import Repos from './components/repos';
 
 
 const App = () => (
@@ -9,45 +12,33 @@ const App = () => (
 
       <Search />
 
-      <div className='user-info'>
+      <UserInfo />
 
-        <img src="https://avatars1.githubusercontent.com/u/29113078?v=4" className="figure-img img-fluid rounded" alt="..." />
+      <Actions />
 
-        <h1 className='username'>
-          <a href='https://github.com/mvgmenezes'>Marcus Menezes</a>
-        </h1>
+      <Repos 
+        className='repos'  
+        titulo='Repositório'
+        repos={[{
+          name: 'Nome do repostirio 1',
+          link: 'http://www.google.com.br'
+        },{
+          name: 'Nome do repostirio 2',
+          link: 'http://www.google.com'
+        }]}
+      />
 
-        <ul className='repos-info'>
-          <li>Repositorios: 122</li>
-          <li>Seguidores: 122</li>
-          <li>Seguindo: 122</li>
-        </ul>
-      </div>
-
-      <div className='actions container form-group'>
-        <button className='btn btn-outline-primary'>Ver Repositorios</button>
-        <button className='btn btn-outline-primary'>Ver favoritos</button>
-      </div>
-
-      <div className='repos'>
-        <h2>Repositorios:</h2>
-        <ul>
-          <li>
-            <a href='#'>Nome dos repositorios</a>
-          </li>
-        </ul>
-
-      </div>
-
-      <div className='starred'>
-        <h2>Favoritos:</h2>
-        <ul>
-          <li>
-            <a href='#'>Nome dos repositorios</a>
-          </li>
-        </ul>
-
-      </div>
+      <Repos 
+        className='starred'  
+        titulo='Favoritos'
+        repos={[{
+          name: 'Nome do repostirio favorito 1',
+          link: 'http://www.google.com.br'
+        },{
+          name: 'Nome do repostirio favorito 2',
+          link: 'http://www.google.com'
+        }]}
+      />
 
     </div>
   </div>
