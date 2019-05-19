@@ -24,7 +24,7 @@ const AppContainer = ({userinfo, repos, starred}) => (
                 />
             }
 
-            {!!starred.lenght && 
+            {!!starred.length && 
                 <Repos
                     className='starred'
                     titulo='Favoritos'
