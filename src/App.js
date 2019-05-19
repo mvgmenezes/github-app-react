@@ -1,48 +1,28 @@
-import React from 'react';
-import Search from './components/search';
-import UserInfo from './components/user-info';
-import Actions from './components/actions';
-import Repos from './components/repos';
+import React, { Component } from 'react';
+import AppContainer from './components/app-container';
 
 
-const App = () => (
-  <div className="container-fluid">
+class App extends Component {
 
-    <div className=' container form-group'>
+  constructor(){
+    super()
+    this.state = {
+      userinfo: null,
+      repos: [],
+      starred: []
+    }
+  }
 
-      <Search />
+  render() {
+    return <AppContainer 
+      userinfo={this.state.userinfo} 
+      repos={this.state.repos}
+      starred = {this.state.starred}
+    
+    />
+  }
 
-      <UserInfo />
 
-      <Actions />
-
-      <Repos 
-        className='repos'  
-        titulo='Repositório'
-        repos={[{
-          name: 'Nome do repostirio 1',
-          link: 'http://www.google.com.br'
-        },{
-          name: 'Nome do repostirio 2',
-          link: 'http://www.google.com'
-        }]}
-      />
-
-      <Repos 
-        className='starred'  
-        titulo='Favoritos'
-        repos={[{
-          name: 'Nome do repostirio favorito 1',
-          link: 'http://www.google.com.br'
-        },{
-          name: 'Nome do repostirio favorito 2',
-          link: 'http://www.google.com'
-        }]}
-      />
-
-    </div>
-  </div>
-
-)
+}
 
 export default App;
