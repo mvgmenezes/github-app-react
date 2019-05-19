@@ -5,13 +5,14 @@ import Actions from './actions'
 import Repos from './repos';
 import PropTypes from 'prop-types'
 
-const AppContainer = ({userinfo, repos, starred, handleSearch, handleRepos, handleStarred}) => (
+const AppContainer = ({userinfo, repos, starred, isFetching, handleSearch, handleRepos, handleStarred}) => (
     <div className="container-fluid">
 
         <div className=' container form-group'>
 
-            <Search handleSearch={handleSearch}/>
-            
+            <Search isDisabled={isFetching} handleSearch={handleSearch}/>
+            {isFetching && <div>Carregando </div>}
+
             {!!userinfo && <UserInfo userinfo={userinfo} />}
 
             {!!userinfo && <Actions handleRepos={handleRepos} handleStarred={handleStarred} />}

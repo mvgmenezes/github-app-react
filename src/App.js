@@ -32,18 +32,21 @@ class App extends Component {
       this.setState({
         userinfo: null,
         repos: [],
-        starred: []
+        starred: [], 
+        isFetching: false
       })
       return
     }
 
     //usando evento sintetico, para usar a variavel 'e' dentro do .then()
     //ou atribuir o 'e' a uma variavel: const target = e.target
-    e.persist()
+    //e.persist()
 
     if (key===ENTER){
         //desabilita o campo de pesquisa
-        e.target.disabled = true
+        //e.target.disabled = true
+        //alterando o desabilita no componente <Search />
+        this.setState({isFetching: true})
 
         //const urlChamada = `https://api.github.com/users/${value}`
         fetch(this.getGitHubApiUrl(value))
@@ -71,8 +74,10 @@ class App extends Component {
             })
 
         }).then(() => {
-          console.log(e)
-          e.target.disabled = false
+          //console.log(e)
+          //e.target.disabled = false
+          //alterando o desabilita no componente <Search />
+          this.setState({isFetching: false})
         })
     }
   
@@ -126,10 +131,11 @@ class App extends Component {
       userinfo={this.state.userinfo} 
       repos={this.state.repos}
       starred = {this.state.starred}
+      isFetching = {this.state.isFetching}
       handleSearch = {(e) => {this.handleSearch(e)}} //a funcao é chamada via arrow func parar fazer o bind do this e que se possa usar o setState dentro da funcao
       handleRepos = {() =>{this.findReposGeneric('repos')} }//a funcao é chamada via arrow func parar fazer o bind do this e que se possa usar o setState dentro da funcao
       handleStarred = {() =>{this.findReposGeneric('starred')} }//a funcao é chamada via arrow func parar fazer o bind do this e que se possa usar o setState dentro da funcao
-    
+
     />
   }
 
