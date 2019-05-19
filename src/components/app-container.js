@@ -3,6 +3,7 @@ import Search from './search';
 import UserInfo from './user-info';
 import Actions from './actions'
 import Repos from './repos';
+import PropTypes from 'prop-types'
 
 const AppContainer = ({userinfo, repos, starred}) => (
     <div className="container-fluid">
@@ -11,7 +12,7 @@ const AppContainer = ({userinfo, repos, starred}) => (
 
             <Search />
             
-            {!!userinfo && <UserInfo />}
+            {!!userinfo && <UserInfo userinfo={userinfo} />}
 
             {!!userinfo && <Actions />}
 
@@ -19,13 +20,7 @@ const AppContainer = ({userinfo, repos, starred}) => (
                 <Repos
                     className='repos'
                     titulo='Repositório'
-                    repos={[{
-                    name: 'Nome do repostirio 1',
-                    link: 'http://www.google.com.br'
-                    }, {
-                    name: 'Nome do repostirio 2',
-                    link: 'http://www.google.com'
-                    }]}
+                    repos={repos}
                 />
             }
 
@@ -33,18 +28,18 @@ const AppContainer = ({userinfo, repos, starred}) => (
                 <Repos
                     className='starred'
                     titulo='Favoritos'
-                    repos={[{
-                    name: 'Nome do repostirio favorito 1',
-                    link: 'http://www.google.com.br'
-                    }, {
-                    name: 'Nome do repostirio favorito 2',
-                    link: 'http://www.google.com'
-                    }]}
+                    repos={starred}
                 />
             }
 
         </div>
       </div>
 )
+
+AppContainer.propTypes = {
+    userinfo: PropTypes.object, 
+    repos: PropTypes.array.isRequired, 
+    starred: PropTypes.array
+}
 
 export default AppContainer

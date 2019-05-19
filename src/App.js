@@ -8,8 +8,20 @@ class App extends Component {
     super()
     this.state = {
       userinfo: null,
-      repos: [],
-      starred: []
+      repos: [{
+        name: 'Nome do repostirio 1',
+        link: 'http://www.google.com.br'
+        }, {
+        name: 'Nome do repostirio 2',
+        link: 'http://www.google.com'
+        }],
+      starred: [{
+        name: 'Nome do repostirio favorito 1',
+        link: 'http://www.google.com.br'
+        }, {
+        name: 'Nome do repostirio favorito 2',
+        link: 'http://www.google.com'
+        }]
     }
   }
 
