@@ -36,7 +36,15 @@ class App extends Component {
       })
       return
     }
+
+    //usando evento sintetico, para usar a variavel 'e' dentro do .then()
+    //ou atribuir o 'e' a uma variavel: const target = e.target
+    e.persist()
+
     if (key===ENTER){
+        //desabilita o campo de pesquisa
+        e.target.disabled = true
+
         //const urlChamada = `https://api.github.com/users/${value}`
         fetch(this.getGitHubApiUrl(value))
           .then((result) => {
@@ -62,6 +70,9 @@ class App extends Component {
               starred: []
             })
 
+        }).then(() => {
+          console.log(e)
+          e.target.disabled = false
         })
     }
   
@@ -100,7 +111,6 @@ class App extends Component {
   //simplificando as funcoes findReposUser e findReposStarredUser
   findReposGeneric(type){
     const username = this.state.userinfo.login
-    console.log(this.getGitHubApiUrl(username,type))
     fetch(this.getGitHubApiUrl(username,type)).then(result => result.json())
     .then((data) => {
       this.setState({
