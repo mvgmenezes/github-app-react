@@ -13,6 +13,13 @@ class App extends Component {
     }
   }
 
+  //metodo que monta a url dinamicamente, com login e o tipo 'repos' ou 'starred'
+  getGitHubApiUrl(username, type){
+    const internalUser = username ? `/${username}`: ''
+    const internalType = type ? `/${type}` : ''
+    return `https://api.github.com/users${internalUser}${internalType}`
+  }
+
   handleSearch(e){
      
     const value = e.target.value
@@ -30,8 +37,8 @@ class App extends Component {
       return
     }
     if (key===ENTER){
-        const urlChamada = `https://api.github.com/users/${value}`
-        fetch(urlChamada)
+        //const urlChamada = `https://api.github.com/users/${value}`
+        fetch(this.getGitHubApiUrl(value))
           .then((result) => {
               return result.json();
             }
@@ -44,28 +51,25 @@ class App extends Component {
 
             this.setState({
               userinfo: {
-                url: urlChamada,
                 username: data.name,
                 login: data.login,
                 photo: data.avatar_url,
                 repos: data.public_repos, 
                 followers: data.followers, 
                 following: data.following
-              }
+              },
+              repos: [],
+              starred: []
             })
-            //this.findReposUser(data.repos_url)
-            //this.findReposStarredUser(urlChamada + '/starred')
+
         })
     }
   
   }
 
   findReposUser(){
-    if (this.state.userinfo.url === undefined){
-      return
-    }
-
-    fetch(this.state.userinfo.url+ '/starred').then(result => result.json())
+    const username = this.state.userinfo.login
+    fetch(this.getGitHubApiUrl(username,'repos')).then(result => result.json())
     .then((data) => {
       //console.log(data)
       const repos = data.map((repo) => {
@@ -79,10 +83,8 @@ class App extends Component {
   }
 
   findReposStarredUser(){
-    if (this.state.userinfo.url === undefined){
-      return
-    }
-    fetch(this.state.userinfo.url+ '/starred').then(result => result.json())
+    const username = this.state.userinfo.login
+    fetch(this.getGitHubApiUrl(username,'starred')).then(result => result.json())
     .then((data) => {
       //console.log(data)
       const starred = data.map((repo) => {
@@ -97,8 +99,9 @@ class App extends Component {
 
   //simplificando as funcoes findReposUser e findReposStarredUser
   findReposGeneric(type){
-    if (this.state.userinfo.url === undefined)return
-    fetch(this.state.userinfo.url+`/${type}`).then(result => result.json())
+    const username = this.state.userinfo.login
+    console.log(this.getGitHubApiUrl(username,type))
+    fetch(this.getGitHubApiUrl(username,type)).then(result => result.json())
     .then((data) => {
       this.setState({
         [type]: data.map((repo) => {
