@@ -7,29 +7,105 @@ class App extends Component {
   constructor(){
     super()
     this.state = {
-      userinfo: {
-        username: 'Marcus Menezes Silva',
-        login: 'mvgmenezes',
-        photo: 'https://avatars1.githubusercontent.com/u/29113078?v=4',
-        repos: 122, 
-        followers: 1, 
-        following: 12
-      },
-      repos: [{
-        name: 'Nome do repostirio 1',
-        link: 'http://www.google.com.br'
-        }, {
-        name: 'Nome do repostirio 2',
-        link: 'http://www.google.com'
-        }],
-      starred: [{
-        name: 'Nome do repostirio favorito 1',
-        link: 'http://www.google.com.br'
-        }, {
-        name: 'Nome do repostirio favorito 2',
-        link: 'http://www.google.com'
-        }]
+      userinfo: null,
+      repos: [],
+      starred: []
     }
+  }
+
+  handleSearch(e){
+     
+    const value = e.target.value
+    //qual tecla foi pressinado
+    const key = e.which || e.keyCode
+    //igual a 13 o enter foi pressionado
+    const ENTER = 13
+
+    if (value==='' || value===undefined){
+      this.setState({
+        userinfo: null,
+        repos: [],
+        starred: []
+      })
+      return
+    }
+    if (key===ENTER){
+        const urlChamada = `https://api.github.com/users/${value}`
+        fetch(urlChamada)
+          .then((result) => {
+              return result.json();
+            }
+          ).then(data => {
+            //console.log(data.message)
+            if (data.message !== undefined){
+              alert(data.message)
+              return
+            }
+
+            this.setState({
+              userinfo: {
+                url: urlChamada,
+                username: data.name,
+                login: data.login,
+                photo: data.avatar_url,
+                repos: data.public_repos, 
+                followers: data.followers, 
+                following: data.following
+              }
+            })
+            //this.findReposUser(data.repos_url)
+            //this.findReposStarredUser(urlChamada + '/starred')
+        })
+    }
+  
+  }
+
+  findReposUser(){
+    if (this.state.userinfo.url === undefined){
+      return
+    }
+
+    fetch(this.state.userinfo.url+ '/starred').then(result => result.json())
+    .then((data) => {
+      //console.log(data)
+      const repos = data.map((repo) => {
+        return {name: repo.name, link: repo.html_url} 
+      })
+
+      this.setState({
+        repos: repos
+      })
+    })
+  }
+
+  findReposStarredUser(){
+    if (this.state.userinfo.url === undefined){
+      return
+    }
+    fetch(this.state.userinfo.url+ '/starred').then(result => result.json())
+    .then((data) => {
+      //console.log(data)
+      const starred = data.map((repo) => {
+        return {name: repo.name, link: repo.html_url} 
+      })
+
+      this.setState({
+        starred: starred
+      })
+    })
+  }
+
+  //simplificando as funcoes findReposUser e findReposStarredUser
+  findReposGeneric(type){
+    if (this.state.userinfo.url === undefined)return
+    fetch(this.state.userinfo.url+`/${type}`).then(result => result.json())
+    .then((data) => {
+      this.setState({
+        [type]: data.map((repo) => {
+          return {name: repo.name, link: repo.html_url} 
+        })
+      })
+    })
   }
 
   render() {
@@ -37,6 +113,9 @@ class App extends Component {
       userinfo={this.state.userinfo} 
       repos={this.state.repos}
       starred = {this.state.starred}
+      handleSearch = {(e) => {this.handleSearch(e)}} //a funcao é chamada via arrow func parar fazer o bind do this e que se possa usar o setState dentro da funcao
+      handleRepos = {() =>{this.findReposGeneric('repos')} }//a funcao é chamada via arrow func parar fazer o bind do this e que se possa usar o setState dentro da funcao
+      handleStarred = {() =>{this.findReposGeneric('starred')} }//a funcao é chamada via arrow func parar fazer o bind do this e que se possa usar o setState dentro da funcao
     
     />
   }

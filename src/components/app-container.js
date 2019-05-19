@@ -1,20 +1,20 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Search from './search';
 import UserInfo from './user-info';
 import Actions from './actions'
 import Repos from './repos';
 import PropTypes from 'prop-types'
 
-const AppContainer = ({userinfo, repos, starred}) => (
+const AppContainer = ({userinfo, repos, starred, handleSearch, handleRepos, handleStarred}) => (
     <div className="container-fluid">
 
         <div className=' container form-group'>
 
-            <Search />
+            <Search handleSearch={handleSearch}/>
             
             {!!userinfo && <UserInfo userinfo={userinfo} />}
 
-            {!!userinfo && <Actions />}
+            {!!userinfo && <Actions handleRepos={handleRepos} handleStarred={handleStarred} />}
 
             {!!repos.length && 
                 <Repos
