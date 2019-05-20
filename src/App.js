@@ -9,7 +9,8 @@ class App extends Component {
     this.state = {
       userinfo: null,
       repos: [],
-      starred: []
+      starred: [],
+      isFetching: false
     }
   }
 
@@ -128,10 +129,12 @@ class App extends Component {
 
   render() {
     return <AppContainer 
-      userinfo={this.state.userinfo} 
-      repos={this.state.repos}
-      starred = {this.state.starred}
-      isFetching = {this.state.isFetching}
+      //userinfo={this.state.userinfo} 
+      //repos={this.state.repos}
+      //starred = {this.state.starred}
+      //isFetching = {this.state.isFetching}  
+      //convertendo as propriedades acima para o spread
+      {...this.state}
       handleSearch = {(e) => {this.handleSearch(e)}} //a funcao é chamada via arrow func parar fazer o bind do this e que se possa usar o setState dentro da funcao
       handleRepos = {() =>{this.findReposGeneric('repos')} }//a funcao é chamada via arrow func parar fazer o bind do this e que se possa usar o setState dentro da funcao
       handleStarred = {() =>{this.findReposGeneric('starred')} }//a funcao é chamada via arrow func parar fazer o bind do this e que se possa usar o setState dentro da funcao

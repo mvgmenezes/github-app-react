@@ -9,8 +9,8 @@ const Actions = ({handleRepos, handleStarred}) => (
 )
 
 Actions.propType = {
-    handleRepos: PropTypes.func.isRequired, 
-    handleStarred: PropTypes.func.isRequired
+    handleRepos: PropType.func.isRequired, 
+    handleStarred: PropType.func.isRequired
 }
 
 export default Actions
