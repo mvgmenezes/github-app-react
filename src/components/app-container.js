@@ -40,7 +40,11 @@ const AppContainer = ({userinfo, repos, starred, isFetching, handleSearch, handl
 AppContainer.propTypes = {
     userinfo: PropTypes.object, 
     repos: PropTypes.array.isRequired, 
-    starred: PropTypes.array
+    starred: PropTypes.array,
+    isFetching: PropTypes.bool.isRequired, 
+    handleSearch: PropTypes.func.isRequired, 
+    handleRepos: PropTypes.func.isRequired, 
+    handleStarred: PropTypes.func.isRequired
 }
 
 export default AppContainer
